@@ -1,16 +1,16 @@
 # Welcome!
 
-In this workshop, you’ll learn how to leverage infrastructure as code (IaC) and DevSecOps patterns to automate, scale, and improve the security posture of your cloud infrastructure. We’ll create a pipeline that provides frequent, easy-to-digest improvements to ensure our configurations are secure and compliant from the build-time to runtime.
+In this workshop, we’ll learn how to leverage infrastructure as code (IaC) and DevSecOps patterns to automate, scale, and improve the security posture of cloud infrastructure and applications. We’ll create a pipeline that ensures our configurations are secure and compliant from build-time to runtime.
 
-Using **Prisma Cloud, Checkov, VS Code, GitHub, Terraform Cloud,** and **AWS**, we’ll get hands-on experience implementing an automated **Terraform** security and compliance workflow.
+This guide will demonstrate how to secure applications from code to cloud by integrating **Prisma Cloud** (and **checkov**) with **Terraform Cloud, Github, VScode** and **AWS**. 
 
 ![Diagram of workshop flow](images/0_flow_diagram.png "Diagram of workshop flow")
 
 ## Learning Objectives
-- Get an overview of DevSecOps and Terraform infrastructure as code (IaC)
+- Gain an understanding of DevSecOps and infrastructure as code (IaC) using Terraform
 - Scan IaC files for misconfigurations locally
 - Set up CI/CD pipelines to automate security scanning and policy enforcement
-- Fix IaC security errors and AWS resource misconfigurations with Prisma Cloud
+- Fix security findings and AWS resource misconfigurations with Prisma Cloud
 
 **Let’s start with a few core concepts!**
 
@@ -33,8 +33,9 @@ Using **Prisma Cloud, Checkov, VS Code, GitHub, Terraform Cloud,** and **AWS**, 
 
 ## Install checkov
 ...
-- --version, --list
+- --version, --help, --list
 
+##
 # Section 1: Code Scanning with Open Source Tools
 
 ## Fork and clone target repository
@@ -51,13 +52,15 @@ Using **Prisma Cloud, Checkov, VS Code, GitHub, Terraform Cloud,** and **AWS**, 
 
 ## IDE plugin
 *Demo Only. Requires API key for Prisma Cloud.*
+- VScode extension
+- CLI + API Key (severity, policy name)
 
 ## Integrate with Github Actions
 - checkov
 - yor
 - results in GHAS
 - terraform / TFC flow*
-- BONUS: pre-commit hooks
+- BONUS: link to pre-commit hooks
 
 ## Integrate with Terraform Cloud
 ...
@@ -65,11 +68,12 @@ Using **Prisma Cloud, Checkov, VS Code, GitHub, Terraform Cloud,** and **AWS**, 
 ## Block a Pull Request, Prevent a Deployment
 ...
 
+##
 # Section 2: Application Security with Prisma Cloud
 *This portion of the workshop is optional (or 'read-only') unless you have existing access to Prisma Cloud.*
 
 ## Integrations and Dashboards
-- Checkov/GHA with API key (GHAS, severity)
+- Checkov/GHA with API key (GHAS, severity, image scanning)
 - TFC Run Tasks (streamlined output)
 - Github Application (PR comments)
 - Results in platform (for each)
