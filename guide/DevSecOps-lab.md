@@ -13,7 +13,7 @@ This guide provides step-by-step instructions to integrate **Prisma Cloud** (and
 - Set up CI/CD pipelines to automate security scanning and policy enforcement
 - Fix security findings and AWS resource misconfigurations with Prisma Cloud
 
-**Let’s start with a few core concepts!**
+**Let’s start with a few core concepts...**
 
 ### DevSecOps
 The foundation of DevSecOps lies in the DevOps movement, wherein development and operations functions have merged to make deployments faster, safer, and more repeatable. Common DevOps practices include automated infrastructure build pipelines (CI/CD) and version-controlled manifests (GitOps) to make it easier to control cloud deployments. By baking software and infrastructure quality requirements into the release lifecycle, teams save time manually reviewing code, letting teams focus on shipping features.
@@ -49,8 +49,6 @@ terraform apply
 
 Any changes made to the resource definition within a .tf file, such as adding tags or changing the acl, can be pushed with the  `terraform apply` command. 
 
-### Security and Terraform
-
 Another benefit of using Terraform to define infrastructure is that code can be scanned for  misconfigurations before the resource is created. This allows for security controls to be integrated into the development process, preventing issues from ever being introduced, deployed and exploited.
 
 
@@ -61,17 +59,84 @@ Another benefit of using Terraform to define infrastructure is that code can be 
 - Prisma Cloud account (OPTIONAL)
 
 ## Log into AWS Event Engine
-...
+*This section is for live workshop events only.*
+
+Follow the link provided to you for Event Engine. Enter the event hash (if it is not already populated), and click `Accept Terms & Login`.
+
+![ee-login](images/ee-login.png)
+
+Choose your perferred sign-in method (OTP is recommended for workshop attendees).
+
+![ee-sign-in](images/ee-sign-in.png)
+
+Once logged in, copy the provided credentials into a local text file and then click `Open Console` to navigate to AWS.
+
+![ee-creds](images/ee-creds.png)
+
+## Configure IAM User and API Key
+*Skip this section for workshops <100 attendees*
+
+From the AWS console, select `IAM` or search for 'IAM' in the Search bar if not displayed.
+
+![console-home-iam](images/console-home-iam.png)
+
+In the IAM Dashboard, click `Users` on the left sidebar.
+
+![iam-dashboard](images/iam-dashboard.png)
+
+Click the `Create User` button on the top right.
+
+![create-user](images/iam-create-user.png)
+
+Specify a `User name` that will be unique then click `Next`.
+
+![user-details](images/iam-user-details.png)
+
+Next, set the permissions for the user by selecting `Attach policies directly` and attaching the `AdministratorAccess` policy.
+
+![iam-set-perms](images/iam-set-perms.png)
+
+Review the user details and click `Create user`.
+
+![iam-review-create](images/iam-review-create.png)
+
+Now we need to assign an API key to the user we just created. Click on the user you just created from the IAM Dashboard and then click `Create access key` on the right.
+
+![iam-create-key](images/iam-create-key.png)
+
+Select `Other` from the Access Key options.
+
+![iam-key-options](images/iam-key-options.png)
+
+Optionally, supply a tag to associate with the Access Key, then click `Create access key`.
+
+![iam-key-tag-and-create](images/iam-key-tag-and-create.png)
+
+Finally, save the Access Key data provided (copy to a local file). This credential will be used to deploy resources to AWS in a later section. When ready, click `Done`.
+
+![iam-retrieve-key-data](images/iam-retrieve-key-data.png)
+
+An access key will now appear on the User details page.
+
+![iam-key-created](images/iam-key-created.png)
+
 
 ## Configure Cloud9
-...
+To ensure we all have the same environent configuration, we will use Cloud9, a cloud-delivered IDE from AWS, to carry out many of the steps in this workshop. To set this up, navigate back to the AWS Console home and select Cloud9 (or enter it into the Search bar).
+
+
+![c9-console-home](images/c9-console-home.png)
+
+
+
+
 
 ## Install checkov
 ...
 - --version, --help, --list
 
 ##
-# Section 1: Code Scanning with Open Source Tools
+# Section 1: Code Scanning with checkov
 
 ## Fork and clone target repository
 ...
@@ -122,7 +187,8 @@ Another benefit of using Terraform to define infrastructure is that code can be 
 - seperate example
 
 # Conclusion
-...
+- congrats! and review of material
+- some call to action and links ... 
 
 
 
