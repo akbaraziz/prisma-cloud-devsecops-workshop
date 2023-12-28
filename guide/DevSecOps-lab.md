@@ -235,18 +235,107 @@ Great! Now we have some code to scan. Let's jump in...
 
 
 ## Scan with checkov
-- -f, -d
-- -skip, -check
-- -framework
-- -soft, -hard, exit codes and automation
+
+Checkov can be configured to scan files and enforce policies in many different ways. To highlight a few: 
+1. Scans can run on individual files or entire directories. 
+2. Policies can be selected through selection or omission. 
+3. Enforcement can be determined by flags that control checkov's exit code.
+
+
+Let's start by scanning the entire `./code` directory and viewing the results.
+
+```
+cd code/
+checkov -d .
+```
+![](images/c9-checkov-d.png)
+
+Failed checks are returned containing: the offending file and resource, the lines of code that triggered the policy, and a guide to fix the issue.
+
+![](images/checkov-result.png)
+
+Now try running checkov on an individual file with `checkov -f <filename>`. 
+
+```
+checkov -f deployment_ec2.tf
+```
+```
+checkov -f simple_ec2.tf
+```
+
+**Question:** Why are there more security findings for `deployment_ec2.tf` than there are for `simple_ec2.tf`? What about `simple_s3.tf` vs `simple_ec2.tf`?
+
+
+Policies can be optionally enforced or skipped with the `--check` and `--skip-check` flags. 
+
+```
+checkov -f deployment_s3.tf --check CKV_AWS_18,CKV_AWS_52
+```
+```
+checkov -f deployment_s3.tf --skip-check CKV_AWS_18,CKV_AWS_52
+```
+
+Frameworks can also be selected or omitted for a particular scan:
+
+
+```
+checkov -d . --framework secrets
+```
+```
+checkov -d . --skip-framework dockerfile
+```
+
+![](images/checkov-secrets.png)
+
+
+Lastly, enforcement can be more granularly controlled by using the `--soft-fail` option. Applying `--soft-fail` results in the scan always returning a 0 exit code. Using `--hard-fail-on` overrides this option. An example of using `--soft-fail` will be demosntrated in a later section.
+
 
 ## Custom Policies
-- -external-checks-dir
+
+Checkov supports the creation of [Custom Policies](https://www.checkov.io/3.Custom%20Policies/YAML%20Custom%20Policies.html) for users to customize their own policy and configuration checks. Custom policies can be written in YAML (recommended) or python and applied with the `--external-checks-dir` or `--external-checks-git` flags. 
+
+Let's create a custom policy to check for [local-exec and remote-exec Provisioners](https://developer.hashicorp.com/terraform/language/resources/provisioners/local-exec) being used in Terraform resource definitons. (Follow link to learn more about provisioners and why it is a good idea to check for them).
+
+```yaml
+metadata:
+ name: "Terraform contains local-exec and/or remote-exec provisioner"
+ id: "CKV2_TF_1"
+ category: "GENERAL_SECURITY"
+definition:
+ and:
+  - cond_type: "attribute"
+    resource_types: all 
+    attribute: "provisioner/local-exec"
+    operator: "not_exists"
+  - cond_type: "attribute"
+    resource_types: all
+    attribute: "provisioner/remote-exec"
+    operator: "not_exists"
+```
+Add the above code to a new file within a new direcotry.
+
+```
+mkdir custom-checks/
+vim custom-checks/exec-provisioner-check.yaml
+```
+Save the file. Then run checkov with the `--external-checks-dir` to test the custom policy.
+
+```
+checkov -f simple_ec2.tf --external-checks-dir custom-checks
+```
+![](images/checkov-custom-checks.png)
+
+**Challenge:** write a custom policy to check all resources for the presence tags. Specifically, ensure that a tag named "Environment" exists.
+
 
 ## IDE plugin
 *Demo Only. Requires API key for Prisma Cloud.*
-- VScode extension
-- CLI + API Key (severity, policy name)
+
+[Prisma Cloud IDE plugins](https://docs.prismacloud.io/en/classic/appsec-admin-guide/get-started/connect-your-repositories/integrate-ide/integrate-ide)
+
+[VScode extension](https://marketplace.visualstudio.com/items?itemName=Bridgecrew.checkov)
+
 
 ## Integrate with Github Actions
 - checkov
