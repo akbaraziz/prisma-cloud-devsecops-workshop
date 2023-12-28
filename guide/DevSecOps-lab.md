@@ -59,7 +59,8 @@ Another benefit of using Terraform to define infrastructure is that code can be 
 - Prisma Cloud account (OPTIONAL)
 
 ## Log into AWS Event Engine
-*This section is for live workshop events only.*
+> [!NOTE]
+> *This section is for live workshop events only.*
 
 Follow the link provided to you for Event Engine. Enter the event hash (if it is not already populated), and click `Accept Terms & Login`.
 
@@ -168,7 +169,7 @@ source ./env/bin/activate
 ##
 # Section 1: Code Scanning with checkov
 
-[Checkov](https://checkov.io) is an open source 'policy-as-code' tool that scans cloud infrastructure defintions to find misconfigurations before they are deployed. Some of the key benefits of Checkov 
+[Checkov](https://checkov.io) is an open source 'policy-as-code' tool that scans cloud infrastructure defintions to find misconfigurations before they are deployed. Some of the key benefits of checkov:
 1. runs as a command line interface (CLI) tool 
 2. supports many common plaftorms and frameworks 
 3. ships with thousands of default policies
@@ -288,7 +289,18 @@ checkov -d . --skip-framework dockerfile
 ![](images/checkov-secrets.png)
 
 
-Lastly, enforcement can be more granularly controlled by using the `--soft-fail` option. Applying `--soft-fail` results in the scan always returning a 0 exit code. Using `--hard-fail-on` overrides this option. An example of using `--soft-fail` will be demosntrated in a later section.
+Lastly, enforcement can be more granularly controlled by using the `--soft-fail` option. Applying `--soft-fail` results in the scan always returning a 0 exit code. Using `--hard-fail-on` overrides this option. 
+
+Check the exit code when running `checkov -d . ` with and without the `--soft-fail` option.
+
+```
+checkov -d . ; echo $?
+```
+```
+checkov -d . --soft-fail ; echo $?
+```
+
+An example of using `--soft-fail` and exit codes in a pipeline context will be demosntrated in a later section.
 
 
 ## Custom Policies
@@ -317,8 +329,12 @@ Add the above code to a new file within a new direcotry.
 
 ```
 mkdir custom-checks/
-vim custom-checks/exec-provisioner-check.yaml
+vim custom-checks/check.yaml
 ```
+>[!TIP]
+> use `echo '$(file_contents)' > custom-checks/check.yaml` if formatting is an issue with vim.
+
+
 Save the file. Then run checkov with the `--external-checks-dir` to test the custom policy.
 
 ```
@@ -330,7 +346,8 @@ checkov -f simple_ec2.tf --external-checks-dir custom-checks
 
 
 ## IDE plugin
-*Demo Only. Requires API key for Prisma Cloud.*
+> [!NOTE]
+> *Demo Only. Requires API key for Prisma Cloud.*
 
 [Prisma Cloud IDE plugins](https://docs.prismacloud.io/en/classic/appsec-admin-guide/get-started/connect-your-repositories/integrate-ide/integrate-ide)
 
@@ -352,7 +369,8 @@ checkov -f simple_ec2.tf --external-checks-dir custom-checks
 
 ##
 # Section 2: Application Security with Prisma Cloud
-*This portion of the workshop is optional (or 'read-only') unless you have existing access to Prisma Cloud.*
+> [!NOTE]
+> *This portion of the workshop is inteded to be view-only. Those with existing access to Prisma Cloud can follow along but is not recommended to onboard any of the workshop content into a production deployment of Prisma Cloud. Use this guide as an example and the content within for demonstration purposes only.*
 
 ## Integrations and Dashboards
 - Checkov/GHA with API key (GHAS, severity, image scanning)
