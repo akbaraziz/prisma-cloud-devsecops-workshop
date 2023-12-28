@@ -78,7 +78,7 @@ Once logged in, copy the provided credentials into a local text file and then cl
 
 From the AWS console, select `IAM` or search for 'IAM' in the Search bar if not displayed.
 
-![console-home-iam](images/console-home-iam.png)
+![iam-console-home](images/iam-console-home.png)
 
 In the IAM Dashboard, click `Users` on the left sidebar.
 
@@ -206,12 +206,31 @@ Now that you see what checkov can do, let's get some code to scan...
 
 
 ## Fork and clone target repository
-This workshop involves code that is vulnerable-by-design. All of the necessary code is contained within this repository or workshop guide itself.
+This workshop involves code that is vulnerable-by-design. All of the necessary code is contained within [this repository](https://github.com/paloAltoNetworks/prisma-cloud-devsecops-workshop) or workshop guide itself.
 
-To begin, log into Github and navigate to the [Prisma Cloud DevSecOps Workshop](https://github.com/paloAltoNetworks/prisma-cloud-devsecops-workshop) repository. Create a `Fork` of this repositry to create your own copy in your own organization.
+To begin, log into Github and navigate to the [Prisma Cloud DevSecOps Workshop](https://github.com/paloAltoNetworks/prisma-cloud-devsecops-workshop) repository. Create a `Fork` of this repositry to create a copy of the code in your own account.
 
 ![](images/gh-fork.png)
 
+Ensure the selected `Owner` matches your username, then proceed to fork the repository by clicking `Create fork`.
+
+![](images/gh-create-fork.png)
+
+Grab the repo URL from Github, then clone the **forked** repository to Cloud9.
+
+![](images/gh-clone.png)
+
+```
+git clone https://github.com/<your-organization>/prisma-cloud-devsecops-workshop.git
+cd prisma-cloud-devsecops-workshop/
+git status
+
+```
+
+![](images/c9-git-clone.png)
+
+
+Great! Now we have some code to scan. Let's jump in...
 
 
 
