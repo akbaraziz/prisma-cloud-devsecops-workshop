@@ -127,19 +127,93 @@ To ensure we all have the same environent configuration, we will use Cloud9, a c
 
 ![c9-console-home](images/c9-console-home.png)
 
+On the Cloud9 Environments page, click `Create Environment`
+
+![c9-create-env](images/c9-create-env.png)
+
+Enter a `Name` for the Environemnt and select `New EC2 instance` for Environment Type.
+
+![c9-env-options1](images/c9-env-options1.png)
+
+Select `Additional instance types` then choose `t3.medium` from the drop-down.
+
+![c9-env-options2](images/c9-env-options2.png)
+
+Leave all other options on default setting and click `Create`. 
+
+![c9-env-options3](images/c9-env-options3.png)
 
 
+Once the environment is created, navigate to it and click `Open in Cloud9` to launch the IDE.
 
+![c9-open-ide](images/c9-open-ide.png)
 
-## Install checkov
-...
-- --version, --help, --list
+Close all of the Welcome default windows, then create a new Terminal window.
+
+![c9-close-welcome](images/c9-close-welcome.png)
+
+![c9-open-term](images/c9-open-term.png)
+
+![c9-blank-term](images/c9-blank-shell.png)
+
+Congrats! Cloud9 is now ready to use. Before installing checkov or pulling code to scan, create and activate a python virtual environment to better organize python packages.
+
+``` 
+python3 -m venv env
+source ./env/bin/activate 
+```
+
+![c9-py-venv](images/c9-py-venv.png)
 
 ##
 # Section 1: Code Scanning with checkov
 
+[Checkov](https://checkov.io) is an open source 'policy-as-code' tool that scans cloud infrastructure defintions to find misconfigurations before they are deployed. Some of the key benefits of Checkov 
+1. runs as a command line interface (CLI) tool 
+2. supports many common plaftorms and frameworks 
+3. ships with thousands of default policies
+4. works on windows/mac/linux (any system with python installed)
+
+## Install checkov
+
+To get started, install checkov using pip:
+
+```
+pip3 install checkov
+```
+
+![](images/c9-install-checkov.png)
+
+
+
+
+Use the `--version` and `--help` flags to verify the install and view usage / optional arguements 
+
+```
+checkov --version
+checkov --help
+```
+![](images/c9-checkov-options.png)
+
+To see a list of every policy that Checkov can enforce, use the `-l` or ` --list` options.
+
+```
+checkov --list
+```
+
+Now that you see what checkov can do, let's get some code to scan...
+
+
+
 ## Fork and clone target repository
-...
+This workshop involves code that is vulnerable-by-design. All of the necessary code is contained within this repository or workshop guide itself.
+
+To begin, log into Github and navigate to the [Prisma Cloud DevSecOps Workshop](https://github.com/paloAltoNetworks/prisma-cloud-devsecops-workshop) repository. Create a `Fork` of this repositry to create your own copy in your own organization.
+
+![](images/gh-fork.png)
+
+
+
 
 ## Scan with checkov
 - -f, -d
