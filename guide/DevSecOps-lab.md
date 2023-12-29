@@ -264,7 +264,7 @@ checkov -f deployment_ec2.tf
 checkov -f simple_ec2.tf
 ```
 
-**Question:** Why are there more security findings for `deployment_ec2.tf` than there are for `simple_ec2.tf`? What about `simple_s3.tf` vs `simple_ec2.tf`?
+> **Question:** Why are there more security findings for `deployment_ec2.tf` than there are for `simple_ec2.tf`? What about `simple_s3.tf` vs `simple_ec2.tf`?
 
 
 Policies can be optionally enforced or skipped with the `--check` and `--skip-check` flags. 
@@ -361,15 +361,11 @@ checkov -f simple_ec2.tf --external-checks-dir custom-checks
 
 
 ## Integrate with Github Actions
-Now we are more familiar with some of checkov's basic functionality, let's what it can do when integrated with other tools like Github Actions.
+Now that we are more familiar with some of checkov's basic functionality, let's see what it can do when integrated with other tools like Github Actions.
 
 You can leverage GitHub actions to run automated scans for every build or specific builds, such as the ones that merge into the master branch. This action can alert on misconfigurations, or block code from being merged if certain policies are violated. Results can also be sent to Prisma Cloud and other sources for further review and remediation steps.
 
-Let's begin by setting an action from the repository page, under the `Actions` tab.
-
-![](images/gh-actions-tab.png)
-
-Then click on `set up a workflow yourself ->` to create a new action from scratich.
+Let's begin by setting an action from the repository page, under the `Actions` tab. Then click on `set up a workflow yourself ->` to create a new action from scratich.
 
 ![](images/gh-actions-new-workflow.png)
 
@@ -417,13 +413,12 @@ Once complete, click `Commit changes...` at the top right, then select `commit d
 
 ![](images/gh-action-edit.png)
 
-![](images/gh-action-commit.png)
 
 Verify that the action is running (or has run) by navigating back to the `Actions` tab.
 
 ![](images/gh-actions-workflows.png)
 
->**Question:** the action will result in a "Failure" (❌) on the first run, why does this happen?
+> **Question:** the action will result in a "Failure" (❌) on the first run, why does this happen?
 
 
 View the results of the run by clickiing on the `Create checkov.yaml` link.
@@ -452,7 +447,7 @@ The security issues found by checkov are surfaced here for developers to get act
 ## Tag and Trace with Yor
 [Yor](yor.io) is another open source tool that can be used for tagging and tracing IaC resources from code to cloud. For example, yor can be used to add git metadata and a unique hash to a terraform resource; this can be used to better manage resource lifecycles, improve change management, and ultimately to help tie code defintions to runtime configurations.
 
-Create new file in the Github UI under the path ```.github/workflows/yor.yaml```. 
+Create new file in the Github UI under the path `github/workflows/yor.yaml`. 
 
 ![](images/gh-new-file.png)
 
@@ -497,14 +492,66 @@ Notice the `yor_trace` tag? This can be used track "drift" between IaC definiton
 Checkov can also be configured as pre-commit hook. Read how to set them up (here!)[https://www.checkov.io/4.Integrations/pre-commit.html].
 
 
-## Integrate with Terraform Cloud
+## Integrate workflow with Terraform Cloud
 Let's continue by integrating our Github repository with Terraform Cloud. We will then use Terraform Cloud to deploy IaC resource to AWS.
 
+Navigate to [Terraform Cloud](app.terraform.io) and sign in / sign up. The community edition is all that is needed for this workshop.
 
-## Block a Pull Request, Prevent a Deployment
-We have now configured a Github repository to be scanned with checkov and then to trigger Terraform Cloud to deploy infrastructure. Let's see how this works in action.
+Once logged in, follow the prompt to set up a new organization.
 
-Create a new file in the Github UI under the path `code/build/example.tf`. Enter the following code snippet into the new file. 
+![](images/tfc-welcome.png)
+
+Enter an Oraganization name and provide your email address.
+
+![](images/tfc-org-details.png)
+
+Create a workspace using the `Version Control Workflow` option.
+
+![](images/tfc-vcs-workflow.png)
+
+Select `Gtihub`, then `Gtihub.com` from the dropdown. Authenticate and authorize the Github.
+
+![](images/tfc-add-github.png)
+
+Choose the `prisma-cloud-devsecops-workshop` from the list of repositories.
+
+![](images/tfc-add-repo.png)
+
+Add a `Workspace Name` and click `Advanced options`.
+
+![](images/tfc-workspace1.png)
+
+In the `Terraform Working Directory` field, enter `/code/build/`. Select `Only trigger runs when files in specified paths change`.
+
+![](images/tfc-workspace2.png)
+
+Leave the rest of the options as default and click `Create`.
+
+![](images/tfc-workspace3.png)
+
+Almost done. In order to deploy resources to AWS, we need to provide Terraform Cloud with AWS credentials. We need to add our credentials as workspace variables. Click `Continue to workspace overview` to do continue. 
+
+![](images/tfc-workspace-created.png)
+
+Click `Configure variables`
+
+![](images/tfc-configure-variables.png)
+
+Add variables for `AWS_SECRET_KEY_ID` and `AWS_SECRET_ACCESS_KEY`. Ensure you select `Environment variables` for both and that `AWS_SECRET_ACCESS_KEY` is marked as `Sensitive`.
+
+![](images/tfc-vars1.png)
+
+Review the variables then return the your workspace overview when finished.
+
+![](images/tfc-vars2.png)
+
+Terraform Cloud is now configured and our pipeline is ready to go. Let's test this out by submitting a pull request.
+
+
+## Submit a Pull Request
+We have now configured a Github repository to be scanned with checkov and to trigger Terraform Cloud to deploy infrastructure. Let's see how this works in action.
+
+Create a new file in the Github UI under the path `code/build/s3.tf`. Enter the following code snippet into the new file. 
 
 
 ```hcl
@@ -524,21 +571,30 @@ resource "aws_s3_bucket" "dev_s3" {
 
 Once complete, click `Commit changes...` at the top right, then select `Create a new branch and start a pull request` and click `Propose changes`.
 
+![](images/gh-pr.png)
 
+Review the pull request, the underlying commits and the checks associated. When ready, click `Merge pull request` to trigger a plan in  Terraform Cloud.
+
+![](images/gh-pr-merge.png)
 
 ## Deploy to AWS
-Go back to the Github Action for checkov and ucomment the line with `--soft-fail=true`. 
+Navigate to Terraform Cloud and view the running plan. Once finished, click `Apply` to deploy the s3 bucket to AWS.
 
->**Question:** what other command options could be used to get the pipeline to pass?
+![](images/tfc-apply-run.png)
 
-![]()
+Go to the S3 menu within AWS to view the bucket that has been deployed.
 
-Approve the pull request to initiate a plan in Terraform Cloud. Once the plan completes, click `Apply` to deploy the s3 bucket to AWS.
+![](images/aws-s3.png)
 
->**Question:** given that we only supplied the s3 bucket with a prefix and not a specific bucket name, how can you tell which s3 bucket is the one *you* deployed?
+> **Question:** given that we only supplied the s3 bucket with a prefix and not a specific bucket name, how can you tell which s3 bucket is the one *you* deployed?
 
 > [!TIP]
 > We used a tool to help trace IaC resources...
+
+
+Go back to the Github Action for checkov and uncomment the line with `--soft-fail=true`.
+
+> **Question:** what other command options could be used to get the pipeline to pass?
 
 ##
 # Section 2: Application Security with Prisma Cloud
