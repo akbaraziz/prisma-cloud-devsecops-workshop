@@ -342,7 +342,7 @@ checkov -f simple_ec2.tf --external-checks-dir custom-checks
 ```
 ![](images/checkov-custom-checks.png)
 
-**Challenge:** write a custom policy to check all resources for the presence tags. Specifically, ensure that a tag named "Environment" exists.
+**Challenge:** write a custom policy to check all resources for the presence of tags. Specifically, ensure that a tag named "Environment" exists.
 
 
 ## IDE plugin
@@ -353,19 +353,192 @@ checkov -f simple_ec2.tf --external-checks-dir custom-checks
 
 [VScode extension](https://marketplace.visualstudio.com/items?itemName=Bridgecrew.checkov)
 
+![](images/vscode-extension.png)
+
+![](images/vscode-ide1.png)
+
+![](images/vscode-ide2.png)
+
 
 ## Integrate with Github Actions
-- checkov
-- yor
-- results in GHAS
-- terraform / TFC flow*
-- BONUS: link to pre-commit hooks
+Now we are more familiar with some of checkov's basic functionality, let's what it can do when integrated with other tools like Github Actions.
+
+You can leverage GitHub actions to run automated scans for every build or specific builds, such as the ones that merge into the master branch. This action can alert on misconfigurations, or block code from being merged if certain policies are violated. Results can also be sent to Prisma Cloud and other sources for further review and remediation steps.
+
+Let's begin by setting an action from the repository page, under the `Actions` tab.
+
+![](images/gh-actions-tab.png)
+
+Then click on `set up a workflow yourself ->` to create a new action from scratich.
+
+![](images/gh-actions-new-workflow.png)
+
+Name the file `checkov.yaml` and add the following code snippet into the editor.
+
+```yaml
+name: checkov
+on:
+  pull_request:
+  push:
+    branches:
+      - main    
+jobs:
+  scan:
+    runs-on: ubuntu-latest 
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+     
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Run checkov 
+      id: checkov
+      uses: bridgecrewio/checkov-action@master
+      with:
+        directory: code/
+        #soft_fail: true
+        #api-key: ${{ secrets.BC_API_KEY }}
+      #env:
+        #PRISMA_API_URL: https://api4.prismacloud.io
+        
+    - name: Upload SARIF file
+      uses: github/codeql-action/upload-sarif@v2
+      
+      # Results are generated only on a success or failure
+      # this is required since GitHub by default won't run the next step
+      # when the previous one has failed. Alternatively, enable soft_fail in checkov action.
+      if: success() || failure()
+      with:
+        sarif_file: results.sarif
+```
+
+Once complete, click `Commit changes...` at the top right, then select `commit directly to the main branch` and click `Commit changes`.
+
+![](images/gh-action-edit.png)
+
+![](images/gh-action-commit.png)
+
+Verify that the action is running (or has run) by navigating back to the `Actions` tab.
+
+![](images/gh-actions-workflows.png)
+
+>**Question:** the action will result in a "Failure" (❌) on the first run, why does this happen?
+
+
+View the results of the run by clickiing on the `Create checkov.yaml` link.
+
+![](images/gh-actions-results.png)
+
+Notice the policy violations that were seen earlier in CLI/Cloud9 are now displayed here. However, this is not the only place they are sent...
+
+## View results in Github Secuirty 
+Checkov natively supports SARIF format and generates this output by default. Github Security accepts SARIF for uploading security issues. The Github Action created earlier handles the plumbing between the two.
+
+Navigate to the `Secutiy` tab in Github, the click `Code scanning` from the left sidebar or `View alerts` in the Security overview > Code scanning alerts section.
+
+![](images/ghas-overview.png)
+
+The security issues found by checkov are surfaced here for developers to get actionable feedback on the codebase they are working in without having to leave the platform. 
+
+![](images/ghas-code-scanning-results.png)
+
+
+> [!TIP]
+> Code scanning alerts can be integrated into many other tools and workflows.
+
+
+
+## Tag and Trace with Yor
+[Yor](yor.io) is another open source tool that can be used for tagging and tracing IaC resources from code to cloud. For example, yor can be used to add git metadata and a unique hash to a terraform resource; this can be used to better manage resource lifecycles, improve change management, and ultimately to help tie code defintions to runtime configurations.
+
+Create new file in the Github UI under the path ```.github/workflows/yor.yaml```. 
+
+![](images/gh-new-file.png)
+
+Add the following code snippet:
+
+```yaml
+name: IaC tag and trace
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  yor:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+  
+    steps:
+      - uses: actions/checkout@v2
+        name: Checkout repo
+        with:
+          fetch-depth: 0
+      - name: Run yor action
+        uses: bridgecrewio/yor-action@main
+
+```
+
+Once again, click `Commit changes...` at the top right, then select `commit directly to the main branch` and click `Commit changes`.
+
+
+Check that the action is running, queued, or finished under the `Actions` tab.
+
+More importanly, look at what yor updated by following the commit history and viewing any `.tf` file in the `code/` directory.
+
+![](images/yor-tags.png)
+
+Notice the `yor_trace` tag? This can be used track "drift" between IaC definitons and runtime configurations.
+
+
+## BONUS: Pre-commit Hooks
+Checkov can also be configured as pre-commit hook. Read how to set them up (here!)[https://www.checkov.io/4.Integrations/pre-commit.html].
+
 
 ## Integrate with Terraform Cloud
-...
+Let's continue by integrating our Github repository with Terraform Cloud. We will then use Terraform Cloud to deploy IaC resource to AWS.
+
 
 ## Block a Pull Request, Prevent a Deployment
-...
+We have now configured a Github repository to be scanned with checkov and then to trigger Terraform Cloud to deploy infrastructure. Let's see how this works in action.
+
+Create a new file in the Github UI under the path `code/build/example.tf`. Enter the following code snippet into the new file. 
+
+
+```hcl
+provider "aws" {
+  region = "us-west-2"
+}
+
+resource "aws_s3_bucket" "dev_s3" {
+  bucket_prefix = "dev-"
+
+  tags = {
+    Environment      = "Dev"
+  }
+}
+
+```
+
+Once complete, click `Commit changes...` at the top right, then select `Create a new branch and start a pull request` and click `Propose changes`.
+
+
+
+## Deploy to AWS
+Go back to the Github Action for checkov and ucomment the line with `--soft-fail=true`. 
+
+>**Question:** what other command options could be used to get the pipeline to pass?
+
+![]()
+
+Approve the pull request to initiate a plan in Terraform Cloud. Once the plan completes, click `Apply` to deploy the s3 bucket to AWS.
+
+>**Question:** given that we only supplied the s3 bucket with a prefix and not a specific bucket name, how can you tell which s3 bucket is the one *you* deployed?
+
+> [!TIP]
+> We used a tool to help trace IaC resources...
 
 ##
 # Section 2: Application Security with Prisma Cloud
