@@ -489,10 +489,20 @@ More importanly, look at what yor updated by following the commit history and vi
 Notice the `yor_trace` tag? This can be used track "drift" between IaC definitons and runtime configurations.
 
 ## Branch Protection Rules
+Using Branch Protection Rules allows for criteria to be set in order for pushes and pull requests to be merged to a given branch. This can be set up to run checkov and block merges if there are any misconfigurations or vulnerabilities. 
+
+Within Github, go to the `Settings` tab and navigate to `Branches` on the left sidebar, then click `Add branch protection rule`.
+
+![](images/gh-branch-protection.png)
+
+Enter `main` as the `Branch name pattern`. Then select `Require status checks to pass before merging`, search for `checkov` in the provided search bar and select it as a required check. Leave the rest as default (unchecked), then click `Create`.
+
+![](images/gh-bp-rule.png)
+
 
 
 ## BONUS: Pre-commit Hooks
-Checkov can also be configured as pre-commit hook. Read how to set them up (here!)[https://www.checkov.io/4.Integrations/pre-commit.html].
+Checkov can also be configured as pre-commit hook. Read how to set them up [here!](https://www.checkov.io/4.Integrations/pre-commit.html).
 
 
 ## Integrate workflow with Terraform Cloud
@@ -576,22 +586,31 @@ Once complete, click `Commit changes...` at the top right, then select `Create a
 
 ![](images/gh-pr.png)
 
-***** EDIT FOR BLOCKING
-Review the pull request, the underlying commits and the checks associated. 
-*****
+At the next screen, review the diff then click `Create pull request`.
 
-Go back to the Github Action for checkov and uncomment the line with `--soft-fail=true`.
+![](images/gh-create-pr.png)
+
+One more time... click  `Create pull request` to open the PR.
+
+![](images/gh-open-pr.png)
+
+Wait for the checks to run. Then wait for the result: a blocked pull request!
+
+![](images/gh-blocked-pr.png)
+
+Either bypass branch protections and `Merge pull request` or go back to the Github Action for checkov and uncomment the line with `--soft-fail=true`. This will require closing and reopening a new pull request.
 
 > **Question:** what other command options could be used to get the pipeline to pass?
 
-When ready, go back to the pull request and click `Merge pull request` to trigger a plan in  Terraform Cloud.
-
-![](images/gh-pr-merge.png)
 
 ## Deploy to AWS
-Navigate to Terraform Cloud and view the running plan. Once finished, click `Apply` to deploy the s3 bucket to AWS.
+Navigate to Terraform Cloud and view the running plan.
 
-![](images/tfc-apply-run.png)
+![](images/tfc-run-queued.png)
+
+Once finished, click `Confirm & apply` to deploy the s3 bucket to AWS.
+
+![](images/tfc-apply.png)
 
 Go to the S3 menu within AWS to view the bucket that has been deployed.
 
@@ -604,7 +623,7 @@ Go to the S3 menu within AWS to view the bucket that has been deployed.
 > We used a tool to tag IaC resources...
 
 
-
+Now let's see how we can leverage Prisma Cloud to make this all easier, gain more featues and scale security at ease.
 
 ##
 # Section 2: Application Security with Prisma Cloud
@@ -615,6 +634,7 @@ Go to the S3 menu within AWS to view the bucket that has been deployed.
 - Integrations (Settings > Providers > Connect Provider)
 
 ## Checkov with API Key
+> [!NOTE] Link to docs:  [Creating Access Keys for Prisma Cloud](https://docs.prismacloud.io/en/enterprise-edition/content-collections/administration/create-access-keys)
 - Checkov/GHA with API key (GHAS, severity, image scanning)
 
 ## Terraform Cloud Run Tasks
