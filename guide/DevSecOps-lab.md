@@ -484,7 +484,7 @@ Check that the action is running, queued, or finished under the `Actions` tab.
 
 More importanly, look at what yor updated by following the commit history and viewing any `.tf` file in the `code/` directory.
 
-<img src="images/yor-tags.png" width="400" height="300" /> 
+<img src="images/yor-tags.png" width="600" height="400" /> 
 
 
 Notice the `yor_trace` tag? This can be used track "drift" between IaC definitons and runtime configurations.
@@ -527,7 +527,7 @@ Create a workspace using the `Version Control Workflow` option.
 Select `Gtihub`, then `Gtihub.com` from the dropdown. Authenticate and authorize the Github.
 
 
-<img src="images/tfc-add-github.png" width="400" height="300" /> 
+<img src="images/tfc-add-github.png" width="600" height="400" /> 
 
 Choose the `prisma-cloud-devsecops-workshop` from the list of repositories.
 
