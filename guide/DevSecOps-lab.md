@@ -484,7 +484,7 @@ Check that the action is running, queued, or finished under the `Actions` tab.
 
 More importanly, look at what yor updated by following the commit history and viewing any `.tf` file in the `code/` directory.
 
-<img src="images/yor-tags.png" width="600" height="400" /> 
+<img src="images/yor-tags.png" width="700" height="500" /> 
 
 
 Notice the `yor_trace` tag? This can be used track "drift" between IaC definitons and runtime configurations.
@@ -518,7 +518,7 @@ Once logged in, follow the prompt to set up a new organization.
 Enter an Oraganization name and provide your email address.
 
 
-<img src="images/tfc-org-details.png" width="400" height="300" /> 
+<img src="images/tfc-org-details.png" width="700" height="500" /> 
 
 Create a workspace using the `Version Control Workflow` option.
 
@@ -527,7 +527,7 @@ Create a workspace using the `Version Control Workflow` option.
 Select `Gtihub`, then `Gtihub.com` from the dropdown. Authenticate and authorize the Github.
 
 
-<img src="images/tfc-add-github.png" width="600" height="400" /> 
+<img src="images/tfc-add-github.png" width="600" height="450" /> 
 
 Choose the `prisma-cloud-devsecops-workshop` from the list of repositories.
 
@@ -535,15 +535,17 @@ Choose the `prisma-cloud-devsecops-workshop` from the list of repositories.
 
 Add a `Workspace Name` and click `Advanced options`.
 
-![](images/tfc-workspace1.png)
+
+<img src="images/tfc-workspace1.png" width="500" height="600" /> 
 
 In the `Terraform Working Directory` field, enter `/code/build/`. Select `Only trigger runs when files in specified paths change`.
 
-![](images/tfc-workspace2.png)
+
+<img src="images/tfc-workspace2.png" width="500" height="600" />
 
 Leave the rest of the options as default and click `Create`.
 
-![](images/tfc-workspace3.png)
+<img src="images/tfc-workspace3.png" width="500" height="400" />
 
 Almost done. In order to deploy resources to AWS, we need to provide Terraform Cloud with AWS credentials. We need to add our credentials as workspace variables. Click `Continue to workspace overview` to do continue. 
 
@@ -551,7 +553,7 @@ Almost done. In order to deploy resources to AWS, we need to provide Terraform C
 
 Click `Configure variables`
 
-![](images/tfc-configure-variables.png)
+<img src="images/tfc-configure-variables.png" width="700" height="450" />
 
 Add variables for `AWS_SECRET_KEY_ID` and `AWS_SECRET_ACCESS_KEY`. Ensure you select `Environment variables` for both and that `AWS_SECRET_ACCESS_KEY` is marked as `Sensitive`.
 
