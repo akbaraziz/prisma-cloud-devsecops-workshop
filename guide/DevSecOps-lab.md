@@ -418,6 +418,7 @@ Verify that the action is running (or has run) by navigating back to the `Action
 
 ![](images/gh-actions-workflows.png)
 
+
 > **Question:** the action will result in a "Failure" (❌) on the first run, why does this happen?
 
 
@@ -487,6 +488,8 @@ More importanly, look at what yor updated by following the commit history and vi
 
 Notice the `yor_trace` tag? This can be used track "drift" between IaC definitons and runtime configurations.
 
+## Branch Protection Rules
+
 
 ## BONUS: Pre-commit Hooks
 Checkov can also be configured as pre-commit hook. Read how to set them up (here!)[https://www.checkov.io/4.Integrations/pre-commit.html].
@@ -548,7 +551,7 @@ Review the variables then return the your workspace overview when finished.
 Terraform Cloud is now configured and our pipeline is ready to go. Let's test this out by submitting a pull request.
 
 
-## Submit a Pull Request
+## Block a Pull Request, Prevent a Deployment
 We have now configured a Github repository to be scanned with checkov and to trigger Terraform Cloud to deploy infrastructure. Let's see how this works in action.
 
 Create a new file in the Github UI under the path `code/build/s3.tf`. Enter the following code snippet into the new file. 
@@ -573,7 +576,15 @@ Once complete, click `Commit changes...` at the top right, then select `Create a
 
 ![](images/gh-pr.png)
 
-Review the pull request, the underlying commits and the checks associated. When ready, click `Merge pull request` to trigger a plan in  Terraform Cloud.
+***** EDIT FOR BLOCKING
+Review the pull request, the underlying commits and the checks associated. 
+*****
+
+Go back to the Github Action for checkov and uncomment the line with `--soft-fail=true`.
+
+> **Question:** what other command options could be used to get the pipeline to pass?
+
+When ready, go back to the pull request and click `Merge pull request` to trigger a plan in  Terraform Cloud.
 
 ![](images/gh-pr-merge.png)
 
@@ -586,36 +597,48 @@ Go to the S3 menu within AWS to view the bucket that has been deployed.
 
 ![](images/aws-s3.png)
 
+
 > **Question:** given that we only supplied the s3 bucket with a prefix and not a specific bucket name, how can you tell which s3 bucket is the one *you* deployed?
 
 > [!TIP]
-> We used a tool to help trace IaC resources...
+> We used a tool to tag IaC resources...
 
 
-Go back to the Github Action for checkov and uncomment the line with `--soft-fail=true`.
 
-> **Question:** what other command options could be used to get the pipeline to pass?
 
 ##
 # Section 2: Application Security with Prisma Cloud
 > [!NOTE]
-> *This portion of the workshop is inteded to be view-only. Those with existing access to Prisma Cloud can follow along but is not recommended to onboard any of the workshop content into a production deployment of Prisma Cloud. Use this guide as an example and the content within for demonstration purposes only.*
+> *This portion of the workshop is intended to be view-only. Those with existing access to Prisma Cloud can follow along but is not recommended to onboard any of the workshop content into a production deployment of Prisma Cloud. Use this guide as an example and the content within for demonstration purposes only.*
 
 ## Integrations and Dashboards
+- Integrations (Settings > Providers > Connect Provider)
+
+## Checkov with API Key
 - Checkov/GHA with API key (GHAS, severity, image scanning)
+
+## Terraform Cloud Run Tasks
 - TFC Run Tasks (streamlined output)
+
+## Github Application
 - Github Application (PR comments)
+
+## Results in Prisma Cloud
 - Results in platform (for each)
     - Projects, IaC, Vulns/SCA, SBOM, CICD, etc.
 
 ## Issue a PR Fix
 ...
 
+## Onboard AWS Account
+...
+
 ## Drift Detection
+
 ...
 - seperate example
 
-# Conclusion
+# Wrapping Up
 - congrats! and review of material
 - some call to action and links ... 
 
