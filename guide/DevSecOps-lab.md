@@ -484,7 +484,7 @@ Check that the action is running, queued, or finished under the `Actions` tab.
 
 More importanly, look at what yor updated by following the commit history and viewing any `.tf` file in the `code/` directory.
 
-<img src="images/yor-tags.png" width="700" height="500" /> 
+<img src="images/yor-tags.png" width="600" height="500" /> 
 
 
 Notice the `yor_trace` tag? This can be used track "drift" between IaC definitons and runtime configurations.
@@ -599,7 +599,7 @@ One more time... click  `Create pull request` to open the PR.
 
 ![](images/gh-open-pr.png)
 
-Wait for the checks to run. Then wait for the result: a blocked pull request!
+Wait for the checks to run. Then take of the result: a blocked pull request!
 
 ![](images/gh-blocked-pr.png)
 
@@ -666,9 +666,15 @@ Let's start by integrating with checkov.
 - Checkov/GHA with API key (GHAS, severity, image scanning)
 
 ## Terraform Cloud Run Tasks
+> [!NOTE] 
+> Link to docs: [Add Terraform Cloud - Run Tasks](https://docs.prismacloud.io/en/classic/appsec-admin-guide/get-started/connect-your-repositories/ci-cd-runs/add-terraform-run-tasks)
+
 - TFC Run Tasks (streamlined output)
 
 ## Github Application
+> [!NOTE] 
+> Link to docs: [Add GitHub to Prisma Cloud](https://docs.prismacloud.io/en/classic/appsec-admin-guide/get-started/connect-your-repositories/code-repositories/add-github)
+
 - Github Application (PR comments)
 
 ## Results in Prisma Cloud
@@ -679,12 +685,15 @@ Let's start by integrating with checkov.
 ...
 
 ## Onboard AWS Account
+> [!NOTE]
+> Link to docs: [Onboard AWS Account](https://docs.prismacloud.io/en/classic/cspm-admin-guide/connect-your-cloud-platform-to-prisma-cloud/onboard-aws/onboard-aws-account)
 ...
 
 ## Drift Detection
+> [!NOTE]
+> Link to docs: [Setup Drift Detection](https://docs.prismacloud.io/en/classic/appsec-admin-guide/get-started/drift-detection)
 
 ...
-- seperate example
 
 # Wrapping Up
 - congrats! and review of material
