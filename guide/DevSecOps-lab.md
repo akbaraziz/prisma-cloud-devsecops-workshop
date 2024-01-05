@@ -149,7 +149,7 @@ Once the environment is created, navigate to it and click `Open in Cloud9` to la
 
 ![c9-open-ide](images/c9-open-ide.png)
 
-Close all of the Welcome default windows, then create a new Terminal window.
+Close all of the default windows, then create a New Terminal window.
 
 ![c9-close-welcome](images/c9-close-welcome.png)
 
@@ -484,7 +484,8 @@ Check that the action is running, queued, or finished under the `Actions` tab.
 
 More importanly, look at what yor updated by following the commit history and viewing any `.tf` file in the `code/` directory.
 
-![](images/yor-tags.png)
+<img src="images/yor-tags.png" width="400" height="300" /> 
+
 
 Notice the `yor_trace` tag? This can be used track "drift" between IaC definitons and runtime configurations.
 
@@ -516,7 +517,8 @@ Once logged in, follow the prompt to set up a new organization.
 
 Enter an Oraganization name and provide your email address.
 
-![](images/tfc-org-details.png)
+
+<img src="images/tfc-org-details.png" width="400" height="300" /> 
 
 Create a workspace using the `Version Control Workflow` option.
 
@@ -524,7 +526,8 @@ Create a workspace using the `Version Control Workflow` option.
 
 Select `Gtihub`, then `Gtihub.com` from the dropdown. Authenticate and authorize the Github.
 
-![](images/tfc-add-github.png)
+
+<img src="images/tfc-add-github.png" width="400" height="300" /> 
 
 Choose the `prisma-cloud-devsecops-workshop` from the list of repositories.
 
@@ -630,11 +633,16 @@ Now let's see how we can leverage Prisma Cloud to make this all easier, gain mor
 > [!NOTE]
 > *This portion of the workshop is intended to be view-only. Those with existing access to Prisma Cloud can follow along but is not recommended to onboard any of the workshop content into a production deployment of Prisma Cloud. Use this guide as an example and the content within for demonstration purposes only.*
 
+
+
 ## Integrations and Dashboards
 - Integrations (Settings > Providers > Connect Provider)
 
+![]()
+
 ## Checkov with API Key
-> [!NOTE] Link to docs:  [Creating Access Keys for Prisma Cloud](https://docs.prismacloud.io/en/enterprise-edition/content-collections/administration/create-access-keys)
+> [!NOTE] 
+> Link to docs: [Creating Access Keys for Prisma Cloud](https://docs.prismacloud.io/en/enterprise-edition/content-collections/administration/create-access-keys)
 - Checkov/GHA with API key (GHAS, severity, image scanning)
 
 ## Terraform Cloud Run Tasks
