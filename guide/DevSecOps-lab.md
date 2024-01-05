@@ -635,16 +635,34 @@ Now let's see how we can leverage Prisma Cloud to make this all easier, gain mor
 > [!NOTE]
 > *This portion of the workshop is intended to be view-only. Those with existing access to Prisma Cloud can follow along but is not recommended to onboard any of the workshop content into a production deployment of Prisma Cloud. Use this guide as an example and the content within for demonstration purposes only.*
 
+## Welcome to Prisma Cloud
+![](images/prisma-welcome.png)
 
+Prisma Cloud is a Cloud Native Application Protection Platform (CNAPP) comprised of three main pillars:
+- Cloud Security
+- Runtime Security
+- Application Security
+
+Across these three "modules", Prisma Cloud provides comprehensive security capabilities spanning code to cloud. This workshop will mainly focus on the Application Security module within the Prisma Cloud platform.
 
 ## Integrations and Dashboards
-- Integrations (Settings > Providers > Connect Provider)
+Prisma Cloud has a wide variety of built-in integrations to help operationalize within a cloud ecosystem.
 
-![]()
+Navigate to `Settings` at the top, then select `Providers` from the left sidebar. Click the `Connect Provider` button on the top right.
+
+![](images/prisma-code-build-providers.png)
+
+Notice all of the different tools that can be integrated natively.
+
+![](images/prisma-connect-providers.png)
+
+Let's start by integrating with checkov.
 
 ## Checkov with API Key
 > [!NOTE] 
 > Link to docs: [Creating Access Keys for Prisma Cloud](https://docs.prismacloud.io/en/enterprise-edition/content-collections/administration/create-access-keys)
+
+
 - Checkov/GHA with API key (GHAS, severity, image scanning)
 
 ## Terraform Cloud Run Tasks
