@@ -667,13 +667,13 @@ Let's start by integrating with checkov.
 
 ## Terraform Cloud Run Tasks
 > [!NOTE] 
-> Link to docs: [Add Terraform Cloud - Run Tasks](https://docs.prismacloud.io/en/classic/appsec-admin-guide/get-started/connect-your-repositories/ci-cd-runs/add-terraform-run-tasks)
+> Link to docs: [Connect Terraform Cloud - Run Tasks](https://docs.prismacloud.io/en/enterprise-edition/content-collections/application-security/get-started/connect-code-and-build-providers/ci-cd-runs/add-terraform-run-tasks)
 
 - TFC Run Tasks (streamlined output)
 
 ## Github Application
 > [!NOTE] 
-> Link to docs: [Add GitHub to Prisma Cloud](https://docs.prismacloud.io/en/classic/appsec-admin-guide/get-started/connect-your-repositories/code-repositories/add-github)
+> Link to docs: [Connect Github](https://docs.prismacloud.io/en/enterprise-edition/content-collections/application-security/get-started/connect-code-and-build-providers/code-repositories/add-github)
 
 - Github Application (PR comments)
 
@@ -686,7 +686,7 @@ Let's start by integrating with checkov.
 
 ## Onboard AWS Account
 > [!NOTE]
-> Link to docs: [Onboard AWS Account](https://docs.prismacloud.io/en/classic/cspm-admin-guide/connect-your-cloud-platform-to-prisma-cloud/onboard-aws/onboard-aws-account)
+> Link to docs: [Onboard AWS Account](https://docs.prismacloud.io/en/enterprise-edition/content-collections/connect/connect-cloud-accounts/onboard-aws/onboard-aws-account)
 ...
 
 ## Drift Detection
