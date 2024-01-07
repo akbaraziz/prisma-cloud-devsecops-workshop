@@ -170,10 +170,10 @@ source ./env/bin/activate
 # Section 1: Code Scanning with checkov
 
 [Checkov](https://checkov.io) is an open source 'policy-as-code' tool that scans cloud infrastructure defintions to find misconfigurations before they are deployed. Some of the key benefits of checkov:
-1. runs as a command line interface (CLI) tool 
-2. supports many common plaftorms and frameworks 
-3. ships with thousands of default policies
-4. works on windows/mac/linux (any system with python installed)
+1. Runs as a command line interface (CLI) tool 
+2. Supports many common plaftorms and frameworks 
+3. Ships with thousands of default policies
+4. Works on windows/mac/linux (any system with python installed)
 
 ## Install checkov
 
@@ -367,7 +367,8 @@ You can leverage GitHub actions to run automated scans for every build or specif
 
 Let's begin by setting an action from the repository page, under the `Actions` tab. Then click on `set up a workflow yourself ->` to create a new action from scratich.
 
-![](images/gh-actions-new-workflow.png)
+
+<img src="images/gh-actions-new-workflow.png" width="600" height="150" /> 
 
 Name the file `checkov.yaml` and add the following code snippet into the editor.
 
@@ -599,7 +600,7 @@ One more time... click  `Create pull request` to open the PR.
 
 ![](images/gh-open-pr.png)
 
-Wait for the checks to run. Then take of the result: a blocked pull request!
+Wait for the checks to run. Then take note of the result: a blocked pull request!
 
 ![](images/gh-blocked-pr.png)
 
@@ -687,6 +688,7 @@ Let's start by integrating with checkov.
 ## Onboard AWS Account
 > [!NOTE]
 > Link to docs: [Onboard AWS Account](https://docs.prismacloud.io/en/enterprise-edition/content-collections/connect/connect-cloud-accounts/onboard-aws/onboard-aws-account)
+
 ...
 
 ## Drift Detection
