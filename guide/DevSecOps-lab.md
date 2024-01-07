@@ -368,7 +368,8 @@ You can leverage GitHub actions to run automated scans for every build or specif
 Let's begin by setting an action from the repository page, under the `Actions` tab. Then click on `set up a workflow yourself ->` to create a new action from scratich.
 
 
-<img src="images/gh-actions-new-workflow.png" width="600" height="150" /> 
+![](images/gh-actions-new-workflow.png)
+<img src="images/gh-actions-new-workflow.png" width="600" height="200" /> 
 
 Name the file `checkov.yaml` and add the following code snippet into the editor.
 
