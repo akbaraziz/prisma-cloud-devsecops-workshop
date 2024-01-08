@@ -432,7 +432,8 @@ Notice the policy violations that were seen earlier in CLI/Cloud9 are now displa
 ## View results in Github Secuirty 
 Checkov natively supports SARIF format and generates this output by default. Github Security accepts SARIF for uploading security issues. The Github Action created earlier handles the plumbing between the two.
 
-Navigate to the `Secutiy` tab in Github, the click `Code scanning` from the left sidebar or `View alerts` in the Security overview > Code scanning alerts section.
+
+Navigate to the `Security` tab in Github, the click `Code scanning` from the left sidebar or `View alerts` in the Security overview > Code scanning alerts section.
 
 ![](images/ghas-overview.png)
 
@@ -504,7 +505,7 @@ Enter `main` as the `Branch name pattern`. Then select `Require status checks to
 
 
 ## BONUS: Pre-commit Hooks
-Checkov can also be configured as pre-commit hook. Read how to set them up [here!](https://www.checkov.io/4.Integrations/pre-commit.html).
+Checkov can also be configured as pre-commit hook. Read how to set them up [here!](https://www.checkov.io/4.Integrations/pre-commit.html)
 
 
 ## Integrate workflow with Terraform Cloud
@@ -662,9 +663,64 @@ Let's start by integrating with checkov.
 ## Checkov with API Key
 > [!NOTE] 
 > Link to docs: [Creating Access Keys for Prisma Cloud](https://docs.prismacloud.io/en/enterprise-edition/content-collections/administration/create-access-keys)
+>
+> Link to docs: [Add Checkov to Prisma Cloud](https://docs.prismacloud.io/en/classic/appsec-admin-guide/get-started/connect-your-repositories/ci-cd-runs/add-checkov)
+
+To generate an API key, navigate to **Settings > Access Control**. Click the `Add` button and select `Access Key`.
+
+![](images/prisma-access-control.png)
+
+Download the csv file containing the credentials.
+
+![](images/prisma-create-access-key.png)
+
+![](images/prisma-access-key-created.png) 
+
+In a terminal window run checkov against the entire `code` directory, now with an API key. Use the following command:
+
+> ![NOTE]
+> replace the `access_key_id`, `secret_key` and `prisma-api-url` with your values.
+
+```
+checkov -d . --bc-api-key <access_key_id::<secret_key>= --repo-id prisma/devsecops-workshop --support --prisma-api-url https://api4.prismacloud.io
+```
+
+![](images/missing.png)
+
+Notice how the results now contain a severity. There are some other features that come with Prisma Cloud and API key as well... 
+
+Return back to Prisma Cloud to view the results that checkov surfaced in the platform. Navigate to **Application Security > Projects**.
+
+![](images/prisma-checkov-results.png)
+
+Let's add this same API key to the Github Action created earlier. Within your github repository, go to **Settings > Secrets and variables** then select **Actions**. 
+
+![](images/github-secrets.png)
+
+Click `Create repository secret`. Input secret value...
+
+![](images/github-repo-secret.png)
+![](images/github-create-secret.png)
+
+Edit `checkov.yaml`, remove comments for `api-key` and `PRISMA_API_URL`.
+
+![](images/gh-edit-checkov.png)
+
+Commit directly to main branch.
+
+<img src="images/gh-commit-directly.png" width="375" height="400" />
+
+Now check the results **Security > Code scanning**. The same findings that displayed here earlier not with a more granual Severity to sort and prioritze with.
+
+![](images/gh-security-results.png)
+
+Return again to Prisma Cloud to view the results that were sent to the the platform.
+
+![](images/prisma-gha-results.png)
 
 
-- Checkov/GHA with API key (GHAS, severity, image scanning)
+
+- Checkov/GHA with API key (severity, GHAS, image scanning(?) )
 
 ## Terraform Cloud Run Tasks
 > [!NOTE] 
